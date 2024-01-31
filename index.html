@@ -52,7 +52,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            margin: 5px;
+            margin: 2px;
             border: 2px solid #333;
             transition: background-color 0.3s ease;
         }
@@ -70,20 +70,21 @@
         .yellow { background-color: #FFFF00; }
         .green { background-color: #00FF00; }
 
-         @media only screen and (min-width: 600px) {
-            /* Adjustments for larger screens (width >= 600px) */
+        @media (max-width: 600px) {
             .intersection {
                 flex-direction: row;
+                justify-content: center;
             }
-            .vertical-traffic-light-box, .horizontal-traffic-light-box {
-                margin: 20px;
+
+            .traffic-light-box {
+                margin: 10px;
             }
         }
     </style>
 </head>
 <body>
     <div class="intersection">
-        <div class="vertical-traffic-light-box" style="position: absolute; top: 45%;margin-left: 550px;">
+        <div class="vertical-traffic-light-box" style="position: absolute; top: 50%;margin-left: 550px;">
             <div class="lightbox"></div>
             <div class="traffic-light green" id="B2">
                 <div class="timer" id="timerB"></div>
