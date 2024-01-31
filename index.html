@@ -8,70 +8,117 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 100%;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background: url('./2.jpg') no-repeat center; /* Add your road background image URL */
+            background-size: cover;
+            background-repeat: no-repeat;
         }
 
         .intersection {
             display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            height: 100%;
+        }
+
+.lightbox {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5); /* Lightbox background color with opacity */
+            z-index: 0; /* Ensure the lightbox is below the lights */
+        }
+
+        .vertical-traffic-light-box {
+            display: flex;
+            flex-direction: column;
             align-items: center;
+            margin: 20px;
+        }
+
+        .horizontal-traffic-light-box {
+            display: flex;
+            align-items: center;
+            margin: 20px;
         }
 
         .traffic-light {
-            margin: 0 10px;
-            text-align: center;
-        }
-
-        .light {
+            position: relative;
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            margin: 10px;
+            margin: 5px;
             border: 2px solid #333;
             transition: background-color 0.3s ease;
         }
 
         .timer {
-            font-size: 20px;
-            margin-top: 5px;
-        }
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: black;
+                    }
 
         .red { background-color: #FF0000; }
         .yellow { background-color: #FFFF00; }
         .green { background-color: #00FF00; }
+
+         @media only screen and (min-width: 600px) {
+            /* Adjustments for larger screens (width >= 600px) */
+            .intersection {
+                flex-direction: row;
+            }
+            .vertical-traffic-light-box, .horizontal-traffic-light-box {
+                margin: 20px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="intersection">
-        <div class="traffic-light">
-            <div class="light green" id="A1"></div>
-            <div class="light" id="A2"></div>
-            <div class="timer" id="timerA"></div>
+        <div class="vertical-traffic-light-box" style="position: absolute; top: 45%;margin-left: 550px;">
+            <div class="lightbox"></div>
+            <div class="traffic-light green" id="B2">
+                <div class="timer" id="timerB"></div>
+            </div>
+            <div class="traffic-light" id="B1"></div>
         </div>
 
-        <div class="traffic-light">
-            <div class="light" id="B1"></div>
-            <div class="light" id="B2"></div>
-            <div class="timer" id="timerB"></div>
+        <div class="horizontal-traffic-light-box" style="position: absolute; bottom: 60%;margin-left:40%;">
+            <div class="lightbox"></div>
+            <div class="traffic-light green" id="D2">
+                <div class="timer" id="timerD"></div>
+            </div>
+            <div class="traffic-light" id="D1"></div>
         </div>
 
-        <div class="traffic-light">
-            <div class="light" id="C1"></div>
-            <div class="light" id="C2"></div>
-            <div class="timer" id="timerC"></div>
+        <div class="horizontal-traffic-light-box" style="position: absolute; top: 60%; margin-left: 50%;">
+            <div class="lightbox"></div>
+            <div class="traffic-light green" id="A2">
+                <div class="timer" id="timerA"></div>
+            </div>
+            <div class="traffic-light" id="A1"></div>
         </div>
 
-        <div class="traffic-light">
-            <div class="light" id="D1"></div>
-            <div class="light" id="D2"></div>
-            <div class="timer" id="timerD"></div>
+        <div class="vertical-traffic-light-box"style="position: absolute; top: 30%; right: 35%;" >
+            <div class="lightbox"></div>
+            <div class="traffic-light green" id="C2">
+                <div class="timer" id="timerC"></div>
+            </div>
+            <div class="traffic-light" id="C1"></div>
         </div>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const lights = document.querySelectorAll('.light');
+            const lights = document.querySelectorAll('.traffic-light');
             const timers = document.querySelectorAll('.timer');
             let currentPhase = 1;
 
@@ -86,20 +133,20 @@
 
                 switch(phase) {
                     case 1:
-                        document.getElementById('A1').classList.add('green');
-                        document.getElementById('A2').classList.add('green');
+                        document.getElementById('B2').classList.add('green');
+                        document.getElementById('B1').classList.add('green');
                         break;
                     case 2:
-                        document.getElementById('B1').classList.add('green');
-                        document.getElementById('B2').classList.add('green');
+                        document.getElementById('D2').classList.add('green');
+                        document.getElementById('D1').classList.add('green');
                         break;
                     case 3:
-                        document.getElementById('C1').classList.add('green');
-                        document.getElementById('C2').classList.add('green');
+                        document.getElementById('A2').classList.add('green');
+                        document.getElementById('A1').classList.add('green');
                         break;
                     case 4:
-                        document.getElementById('D1').classList.add('green');
-                        document.getElementById('D2').classList.add('green');
+                        document.getElementById('C2').classList.add('green');
+                        document.getElementById('C1').classList.add('green');
                         break;
                     default:
                         break;
