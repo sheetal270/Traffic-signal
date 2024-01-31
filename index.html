@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .intersection {
+            display: flex;
+            align-items: center;
+        }
+
+        .traffic-light {
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .light {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 10px;
+            border: 2px solid #333;
+            transition: background-color 0.3s ease;
+        }
+
+        .timer {
+            font-size: 20px;
+            margin-top: 5px;
+        }
+
+        .red { background-color: #FF0000; }
+        .yellow { background-color: #FFFF00; }
+        .green { background-color: #00FF00; }
+    </style>
+</head>
+<body>
+    <div class="intersection">
+        <div class="traffic-light">
+            <div class="light green" id="A1"></div>
+            <div class="light" id="A2"></div>
+            <div class="timer" id="timerA"></div>
+        </div>
+
+        <div class="traffic-light">
+            <div class="light" id="B1"></div>
+            <div class="light" id="B2"></div>
+            <div class="timer" id="timerB"></div>
+        </div>
+
+        <div class="traffic-light">
+            <div class="light" id="C1"></div>
+            <div class="light" id="C2"></div>
+            <div class="timer" id="timerC"></div>
+        </div>
+
+        <div class="traffic-light">
+            <div class="light" id="D1"></div>
+            <div class="light" id="D2"></div>
+            <div class="timer" id="timerD"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const lights = document.querySelectorAll('.light');
+            const timers = document.querySelectorAll('.timer');
+            let currentPhase = 1;
+
+            // Immediately start the countdown timer for the default green light
+            switchLights(currentPhase);
+
+            function switchLights(phase) {
+                lights.forEach(light => light.classList.remove('green', 'yellow', 'red'));
+                timers.forEach(timer => timer.textContent = '');
+
+                lights.forEach(light => light.classList.add('red'));
+
+                switch(phase) {
+                    case 1:
+                        document.getElementById('A1').classList.add('green');
+                        document.getElementById('A2').classList.add('green');
+                        break;
+                    case 2:
+                        document.getElementById('B1').classList.add('green');
+                        document.getElementById('B2').classList.add('green');
+                        break;
+                    case 3:
+                        document.getElementById('C1').classList.add('green');
+                        document.getElementById('C2').classList.add('green');
+                        break;
+                    case 4:
+                        document.getElementById('D1').classList.add('green');
+                        document.getElementById('D2').classList.add('green');
+                        break;
+                    default:
+                        break;
+                }
+
+                startTimer(30, phase);
+            }
+
+            function startTimer(duration, phase) {
+                let timer = duration, minutes, seconds;
+                const intervalId = setInterval(function () {
+                    minutes = parseInt(timer / 60, 10);
+                    seconds = parseInt(timer % 60, 10);
+
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    timers[phase - 1].textContent = minutes + ":" + seconds;
+
+                    if (--timer < 0) {
+                        timer = duration;
+
+                        if (phase <= 4) {
+                            // Move to the next light after 30 seconds
+                            clearInterval(intervalId);
+                            currentPhase = (currentPhase % 4) + 1; // Cycle through phases 1, 2, 3, 4
+                            switchLights(currentPhase);
+                        } else {
+                            // After all signals, wait for an additional 60 seconds
+                            clearInterval(intervalId);
+                            setTimeout(() => {
+                                currentPhase = 1; // Restart the cycle
+                                switchLights(currentPhase);
+                            }, 60000); // Wait for 60 seconds before restarting the cycle
+                        }
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
