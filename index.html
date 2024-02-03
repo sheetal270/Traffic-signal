@@ -83,13 +83,18 @@
     </style>
 </head>
 <body>
-    <div class="intersection">
+   <div class="intersection">
         <div class="vertical-traffic-light-box" style="position: absolute; top: 50%;margin-left: 550px;">
             <div class="lightbox"></div>
             <div class="traffic-light green" id="B2">
                 <div class="timer" id="timerB"></div>
             </div>
-            <div class="traffic-light" id="B1"></div>
+            <div class="traffic-light yellow" id="B1">
+                <div class="timer" id="timerBY"></div>
+            </div>
+            <div class="traffic-light red" id="B0">
+                <div class="timer" id="timerBR"></div>
+            </div>
         </div>
 
         <div class="horizontal-traffic-light-box" style="position: absolute; bottom: 60%;margin-left:40%;">
@@ -97,7 +102,12 @@
             <div class="traffic-light green" id="D2">
                 <div class="timer" id="timerD"></div>
             </div>
-            <div class="traffic-light" id="D1"></div>
+            <div class="traffic-light yellow" id="D1">
+                <div class="timer" id="timerDY"></div>
+            </div>
+            <div class="traffic-light red" id="D0">
+                <div class="timer" id="timerDR"></div>
+            </div>
         </div>
 
         <div class="horizontal-traffic-light-box" style="position: absolute; top: 60%; margin-left: 50%;">
@@ -105,7 +115,12 @@
             <div class="traffic-light green" id="A2">
                 <div class="timer" id="timerA"></div>
             </div>
-            <div class="traffic-light" id="A1"></div>
+            <div class="traffic-light yellow" id="A1">
+                <div class="timer" id="timerAY"></div>
+            </div>
+            <div class="traffic-light red" id="A0">
+                <div class="timer" id="timerAR"></div>
+            </div>
         </div>
 
         <div class="vertical-traffic-light-box"style="position: absolute; top: 30%; right: 35%;" >
@@ -113,10 +128,14 @@
             <div class="traffic-light green" id="C2">
                 <div class="timer" id="timerC"></div>
             </div>
-            <div class="traffic-light" id="C1"></div>
+            <div class="traffic-light yellow" id="C1">
+                <div class="timer" id="timerCY"></div>
+            </div>
+            <div class="traffic-light red" id="C0">
+                <div class="timer" id="timerCR"></div>
+            </div>
         </div>
     </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const lights = document.querySelectorAll('.traffic-light');
@@ -134,20 +153,23 @@
 
                 switch(phase) {
                     case 1:
-                        document.getElementById('B2').classList.add('green');
-                        document.getElementById('B1').classList.add('green');
+                       document.getElementById('B2').classList.add('green');
+                        document.getElementById('B1').classList.add('yellow');
+                        document.getElementById('B0').classList.add('red');
                         break;
                     case 2:
                         document.getElementById('D2').classList.add('green');
-                        document.getElementById('D1').classList.add('green');
+                       document.getElementById('D1').classList.add('yellow');
+                        document.getElementById('D0').classList.add('red');
                         break;
                     case 3:
                         document.getElementById('A2').classList.add('green');
-                        document.getElementById('A1').classList.add('green');
-                        break;
+                       document.getElementById('A1').classList.add('yellow');
+                        document.getElementById('A0').classList.add('red');
                     case 4:
                         document.getElementById('C2').classList.add('green');
-                        document.getElementById('C1').classList.add('green');
+                        document.getElementById('C1').classList.add('yellow');
+                        document.getElementById('C0').classList.add('red');
                         break;
                     default:
                         break;
@@ -165,8 +187,13 @@
                     minutes = minutes < 10 ? "0" + minutes : minutes;
                     seconds = seconds < 10 ? "0" + seconds : seconds;
 
-                    timers[phase - 1].textContent = minutes + ":" + seconds;
+                  timers[phase * 3 - 3].textContent = minutes + ":" + seconds;
 
+                    if (timer === 3 && phase <= 4) {
+                        // Show yellow light for 3 seconds before switching to red
+                        lights[phase * 3 - 2].classList.remove('green');
+                        lights[phase * 3 - 2].classList.add('yellow');
+                    }
                     if (--timer < 0) {
                         timer = duration;
 
